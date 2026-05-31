@@ -67,14 +67,16 @@ function grado(puntuación) {
 /**
  * Crea las filas de la tabla de canciones.
  * 
+ * @param { string } id id de la canción.
  * @param { string } titulo Titulo de la canción.
  * @param { string } dificultad Dificultad de la canción.
  * @param { number } puntuación Puntuación maxima obtenida.
  * @param { number } estado Mejor estado de compleción obtenido.
  * @returns { HTMLTableRowElement } Fila de la tabla.
  */
-export function filaTabla (titulo, dificultad, puntuación, estado) {
+export function filaTabla (id, titulo, dificultad, puntuación, estado) {
   const fila = document.createElement("tr");
+  fila.id = id;
   const celdaTitulo = document.createElement("th");
   celdaTitulo.textContent = titulo;
   const celdaDificultad = document.createElement("th");
@@ -82,17 +84,17 @@ export function filaTabla (titulo, dificultad, puntuación, estado) {
   const celdaPuntuación = document.createElement("th");
   celdaPuntuación.textContent = puntuación.toFixed(6).toString();
   const celdaGrado = document.createElement("th");
-  celdaGrado.textContent = grado(puntuación).toString();
+  celdaGrado.textContent = grado(puntuación);
   const textoEstado = document.createElement("th");
   switch (estado) {
     case 1:
-      textoEstado.textContent = "Superado"
+      textoEstado.textContent = "Superado";
       break;
     case 2:
-      textoEstado.textContent = "Combo completo"
+      textoEstado.textContent = "Combo completo";
       break;
     case 3:
-      textoEstado.textContent = "Combo perfecto"
+      textoEstado.textContent = "Combo perfecto";
       break;
     default:
       textoEstado.textContent = "No jugada";
@@ -106,6 +108,21 @@ export function filaTabla (titulo, dificultad, puntuación, estado) {
   return fila;
 }
 
-export function añadePuntuaciones(id, puntuación){
-
+export function añadePuntuaciones(puntuaciones, canciones, idCancion, puntuación, estado) {
+  puntuaciones.push({ id: idCancion, valor: puntuación });
+  canciones.find(({ id }) => id === idCancion).estado = estado;
+  const fila = document.getElementById(idCancion)
+  fila.children[2].textContent = puntuación.toFixed(6).toString();
+  fila.children[3].textContent = grado(puntuación);
+  switch (estado) {
+    case 1:
+      fila.children[4].textContent = "Superado";
+      break;
+    case 2:
+      fila.children[4].textContent = "Combo completo";
+      break;
+    case 3:
+      fila.children[4].textContent = "Combo perfecto";
+      break;
+  }
 };
