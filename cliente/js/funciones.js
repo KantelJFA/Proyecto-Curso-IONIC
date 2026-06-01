@@ -23,7 +23,7 @@ export function cantidadesValidas(perfectos, bien, fallos, notasTotales) {
  * @returns { number } Puntuación obtenida.
  */
 export function puntuación(perfectos, bien, notasTotales) {
-  const valorNotas = 100/notasTotales;
+  const valorNotas = 100 / notasTotales;
   const puntuación = (perfectos + bien / 2) * valorNotas;
   return puntuación;
 };
@@ -50,13 +50,13 @@ export function estado(bien, fallos) {
  * @param { number } puntuación La puntuación a valorar.
  * @returns { string } Grado obtenido.
  */
-function grado(puntuación) {
+export function grado(puntuación) {
   let grado;
-  if (puntuación >= 92) { // EX, A, B
+  if (puntuación >= 92) {
     if (puntuación >= 98) grado = "EX";
     else if (puntuación >= 95) grado = "A";
     else grado = "B";
-  } else { // C, D, E
+  } else {
     if (puntuación >= 89) grado = "C"
     else if (puntuación >= 86) grado = "D";
     else grado = "E";
@@ -74,7 +74,7 @@ function grado(puntuación) {
  * @param { number } estado Mejor estado de compleción obtenido.
  * @returns { HTMLTableRowElement } Fila de la tabla.
  */
-export function filaTabla (id, titulo, dificultad, puntuación, estado) {
+export function filaTabla(id, titulo, dificultad, puntuación, estado) {
   const fila = document.createElement("tr");
   fila.id = id;
   const celdaTitulo = document.createElement("th");
@@ -108,21 +108,17 @@ export function filaTabla (id, titulo, dificultad, puntuación, estado) {
   return fila;
 }
 
+/**
+ * Añade una puntuación a la tabla de puntuaciones, y comprueba si es necesario modificar el estado de compleción de la canción.
+ * 
+ * @param { {id: string, valor: number, momentoIntroducción: number}[] } puntuaciones lista de puntuaciones.
+ * @param { {id: string, titulo: string, dificultad: string, notas: number, estado: number}[] } canciones lista de canciones.
+ * @param { string } idCancion id de la canción.
+ * @param { number } puntuación 
+ * @param { number } estado 
+ */
 export function añadePuntuaciones(puntuaciones, canciones, idCancion, puntuación, estado) {
-  puntuaciones.push({ id: idCancion, valor: puntuación });
-  canciones.find(({ id }) => id === idCancion).estado = estado;
-  const fila = document.getElementById(idCancion)
-  fila.children[2].textContent = puntuación.toFixed(6).toString();
-  fila.children[3].textContent = grado(puntuación);
-  switch (estado) {
-    case 1:
-      fila.children[4].textContent = "Superado";
-      break;
-    case 2:
-      fila.children[4].textContent = "Combo completo";
-      break;
-    case 3:
-      fila.children[4].textContent = "Combo perfecto";
-      break;
-  }
+  puntuaciones.push({ id: idCancion, valor: puntuación, momentoIntroducción: Date.now() });
+  const cancion = canciones.find(({ id }) => id === idCancion);
+  if (estado > cancion.estado) cancion.estado = estado;
 };
