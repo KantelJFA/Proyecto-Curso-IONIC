@@ -29,7 +29,7 @@ const valoresPuntuaciones = [
   { id: "006", perfect: 620, good: 150, fail: 30 },
   { id: "006", perfect: 620, good: 170, fail: 10 },
 ];
-*/
+
 for (let i = valoresPuntuaciones.length - 1; i >= 0; i--) {
   if (i > 0) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -39,6 +39,8 @@ for (let i = valoresPuntuaciones.length - 1; i >= 0; i--) {
   const cancion = listaCanciones.find(({ id }) => id === valores.id);
   añadePuntuaciones(listaPuntuaciones, listaCanciones, valores.id, puntuación(valores.perfect, valores.good, cancion.notas), estado(valores.good, valores.fail));
 }
+*/
+// Fin sección añadir datos de forma automatica.
 
 listaCanciones.forEach(cancion => {
   let puntuación = 0;
@@ -97,3 +99,4 @@ function aListaPuntuaciones() {
   }
 }
 */
+// Fin sección añadir datos uno a uno.
