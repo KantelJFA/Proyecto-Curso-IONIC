@@ -6,7 +6,8 @@ const listaCanciones = [
   { id: "003", titulo: "King of the disco", dificultad: "3", notas: 400, estado: 0 },
   { id: "004", titulo: "Festival night", dificultad: "2", notas: 450, estado: 0 },
   { id: "005", titulo: "Mad Jester", dificultad: "1", notas: 50, estado: 0 },
-  { id: "006", titulo: "Revenge of the lonely princess", dificultad: "5", notas: 800, estado: 0 }
+  { id: "006", titulo: "Revenge of the lonely princess", dificultad: "5", notas: 800, estado: 0 },
+  { id: "007", titulo: "Last song of the mandrake", dificultad: "4", notas: 770 },
 ];
 
 const listaPuntuaciones = []
@@ -14,7 +15,7 @@ const listaPuntuaciones = []
 const tablaCanciones = document.getElementsByTagName("table")[0];
 
 // Descomentar para añadir datos de forma automatica.
-/*
+
 const valoresPuntuaciones = [
   { id: "001", perfect: 149, good: 1, fail: 0 },
   { id: "001", perfect: 125, good: 25, fail: 0 },
@@ -28,6 +29,8 @@ const valoresPuntuaciones = [
   { id: "005", perfect: 45, good: 5, fail: 0 },
   { id: "006", perfect: 620, good: 150, fail: 30 },
   { id: "006", perfect: 620, good: 170, fail: 10 },
+  { id: "007", perfect: 620, good: 130, fail: 20 },
+  { id: "007", perfect: 690, good: 70, fail: 10 },
 ];
 
 for (let i = valoresPuntuaciones.length - 1; i >= 0; i--) {
@@ -39,7 +42,7 @@ for (let i = valoresPuntuaciones.length - 1; i >= 0; i--) {
   const cancion = listaCanciones.find(({ id }) => id === valores.id);
   añadePuntuaciones(listaPuntuaciones, listaCanciones, valores.id, puntuación(valores.perfect, valores.good, cancion.notas), estado(valores.good, valores.fail));
 }
-*/
+
 // Fin sección añadir datos de forma automatica.
 
 listaCanciones.forEach(cancion => {
@@ -64,6 +67,8 @@ const valoresPuntuaciones = [
   { id: "005", perfect: 45, good: 5, fail: 0 },
   { id: "006", perfect: 620, good: 150, fail: 30 },
   { id: "006", perfect: 620, good: 170, fail: 10 },
+  { id: "007", perfect: 620, good: 130, fail: 20 },
+  { id: "007", perfect: 690, good: 70, fail: 10 },
 ];
 
 const botonAñadir = document.getElementById("añade");
