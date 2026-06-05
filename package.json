@@ -1,0 +1,11 @@
+{
+  "packageManager": "yarn@4.16.0",
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/node": "^7.29.7",
+    "gulp-babel-minify": "^0.5.2"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
