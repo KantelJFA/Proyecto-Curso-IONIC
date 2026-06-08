@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f2f4f8;
+  background-color: azure;
   margin: 0;
   padding: 0;
 }
@@ -10,15 +10,58 @@ body {
   margin: 40px auto;
 }
 .listado {
-  background-color: white;
+  background-color: aliceblue;
   padding: 24px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-#resumenProductos {
-  margin-top: 20px;
-  font-weight: bold;
-}
 #atras {
   padding: 12px;
+}
+table {
+  padding: 0px;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 0px;
+}
+th {
+  height: 30px;
+  font-weight: bold;
+  color: navy;
+  background-color: navajowhite;
+}
+td {
+  height: 40px;
+  text-align: center;
+}
+tr:nth-child(even) {
+  background-color: antiquewhite;
+}
+.EX, .CP {
+  color: gold;
+}
+.A, .B, .CC {
+  color: green;
+}
+.C, .D, .CS {
+  color: blue;
+}
+.E, .NP {
+  color: red;
+}
+.Song_Title {
+  width: 210px;
+}
+.Song_Difficulty {
+  width: 80px;
+}
+.Song_Score {
+  width: 90px;
+}
+.Song_Grade {
+  width: 50px;
+}
+.Song_State {
+  width: 120px;
 }

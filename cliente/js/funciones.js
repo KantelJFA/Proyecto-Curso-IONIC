@@ -77,27 +77,32 @@ export function grado(puntuación) {
 export function filaTabla(id, titulo, dificultad, puntuación, estado) {
   const fila = document.createElement("tr");
   fila.id = id;
-  const celdaTitulo = document.createElement("th");
+  const celdaTitulo = document.createElement("td");
   celdaTitulo.textContent = titulo;
-  const celdaDificultad = document.createElement("th");
+  const celdaDificultad = document.createElement("td");
   celdaDificultad.textContent = dificultad;
-  const celdaPuntuación = document.createElement("th");
+  const celdaPuntuación = document.createElement("td");
   celdaPuntuación.textContent = puntuación.toFixed(6).toString();
-  const celdaGrado = document.createElement("th");
+  const celdaGrado = document.createElement("td");
   celdaGrado.textContent = grado(puntuación);
-  const textoEstado = document.createElement("th");
+  celdaGrado.classList.add(grado(puntuación));
+  const textoEstado = document.createElement("td");
   switch (estado) {
     case 1:
       textoEstado.textContent = "Superado";
+      textoEstado.classList.add("CS");
       break;
     case 2:
       textoEstado.textContent = "Combo completo";
+      textoEstado.classList.add("CC");
       break;
     case 3:
       textoEstado.textContent = "Combo perfecto";
+      textoEstado.classList.add("CP");
       break;
     default:
       textoEstado.textContent = "No jugada";
+      textoEstado.classList.add("NP");
       break;
   }
   fila.appendChild(celdaTitulo);
