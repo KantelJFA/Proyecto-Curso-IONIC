@@ -38,14 +38,23 @@ td {
 tr:nth-child(even) {
   background-color: antiquewhite;
 }
+.resaltado {
+  font-weight: bold;
+}
 .EX, .CP {
   color: gold;
 }
-.A, .B, .CC {
+.A, .CC {
+  color: yellowgreen;
+}
+.B, .CS {
   color: green;
 }
-.C, .D, .CS {
-  color: blue;
+.C {
+  color: olive;
+}
+.D {
+  color: orangered;
 }
 .E, .NP {
   color: red;

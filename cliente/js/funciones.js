@@ -85,24 +85,24 @@ export function filaTabla(id, titulo, dificultad, puntuación, estado) {
   celdaPuntuación.textContent = puntuación.toFixed(6).toString();
   const celdaGrado = document.createElement("td");
   celdaGrado.textContent = grado(puntuación);
-  celdaGrado.classList.add(grado(puntuación));
+  celdaGrado.classList.add(grado(puntuación), "resaltado");
   const textoEstado = document.createElement("td");
   switch (estado) {
     case 1:
       textoEstado.textContent = "Superado";
-      textoEstado.classList.add("CS");
+      textoEstado.classList.add("CS", "resaltado");
       break;
     case 2:
-      textoEstado.textContent = "Combo completo";
-      textoEstado.classList.add("CC");
+      textoEstado.textContent = "Combo Completo";
+      textoEstado.classList.add("CC", "resaltado");
       break;
     case 3:
-      textoEstado.textContent = "Combo perfecto";
-      textoEstado.classList.add("CP");
+      textoEstado.textContent = "Combo Perfecto";
+      textoEstado.classList.add("CP", "resaltado");
       break;
     default:
       textoEstado.textContent = "No jugada";
-      textoEstado.classList.add("NP");
+      textoEstado.classList.add("NP", "resaltado");
       break;
   }
   fila.appendChild(celdaTitulo);
