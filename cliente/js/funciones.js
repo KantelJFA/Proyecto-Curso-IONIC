@@ -74,7 +74,7 @@ export function grado(puntuación) {
  * @param { number } estado Mejor estado de compleción obtenido.
  * @returns { HTMLTableRowElement } Fila de la tabla.
  */
-export function filaTabla(id, titulo, dificultad, puntuación, estado) {
+export function añadirFilaTabla(id, titulo, dificultad, puntuación, estado) {
   const fila = document.createElement("tr");
   fila.id = id;
   const celdaTitulo = document.createElement("td");
@@ -111,6 +111,40 @@ export function filaTabla(id, titulo, dificultad, puntuación, estado) {
   fila.appendChild(celdaGrado);
   fila.appendChild(textoEstado);
   return fila;
+}
+
+/**
+ * 
+ * @param { string } id id de la canción.
+ * @param { number } puntuación Puntuación maxima obtenida.
+ * @param { number } estado Mejor estado de compleción obtenido.
+ */
+export function editarFilaTabla(id, puntuación, estado) {
+  const fila = document.getElementById(id);
+  const mejorPuntuación = listaPuntuaciones.filter(p => cancion.id.includes( p.id )).map( p => p.valor ).sort((a,b) => b - a)[0];
+  if (puntuación > mejorPuntuación.valor) {
+    fila.children[2].textContent = mejorPuntuación.toFixed(6).toString();
+    fila.children[3].textContent = grado(mejorPuntuación);
+    fila.children[3].classList.remove("EX","A","B","C","D","E");
+    fila.children[3].classList.add(grado(mejorPuntuación));
+  }
+  if (estado > mejorPuntuación.estado) {
+    fila.children[4].classList.remove("CP","CC","CS","NP");
+    switch (cancion.estado) {
+      case 1:
+        fila.children[4].textContent = "Superado";
+        fila.children[4].classList.add("CS");
+        break;
+      case 2:
+        fila.children[4].textContent = "Combo Completo";
+        fila.children[4].classList.add("CC");
+        break;
+      case 3:
+        fila.children[4].textContent = "Combo Perfecto";
+        fila.children[4].classList.add("CP");
+        break;
+    }
+  }
 }
 
 /**

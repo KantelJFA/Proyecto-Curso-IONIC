@@ -10,7 +10,7 @@
     <main class="contenedor">
       <h1>Listado de canciones</h1>
       <!--p></p-->
-      <section class="listado">
+      <section id="listado">
         <!--p id="dificultad"></p-->
         <table>
           <tr>
@@ -21,7 +21,22 @@
             <th class="Song_State">Estado</th>
           </tr>
         </table>
-        <a id="añade" href="./form.html">Añade puntuación</a>
+        <button id="añade">Añade puntuación</button>
+      </section>
+      <section id="formulario">
+        <form method="post">
+          <select id="canciones">
+            <option selected hidden>Seleccione una canción</option>
+          </select><br>
+          <label for="perfecto">Perfectos:</label>
+          <input name="perfecto" type="number" id="perfecto"><br>
+          <label for="bien">Bien:</label>
+          <input name="bien" type="number" id="bien"><br>
+          <label for="fallo">Fallos:</label>
+          <input name="fallo" type="number" id="fallo"><br>
+          <input type="submit" value="Añadir puntuación">
+        </form>
+        <button id="muestra">Ver lista</button>
       </section>
     </main>
     <script type="module" src="js/main.js"></script>
