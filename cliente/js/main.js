@@ -1,6 +1,10 @@
 import { cantidadesValidas, puntuación, estado, añadirFilaTabla, añadePuntuaciones, grado } from "./funciones.js";
 
+// FALTA AÑADIR MÁS CANCIONES
+// Al menos un 2, un 5, y unos cuantos 3 y 4
+
 const listaCanciones = [
+  { id: "00", titulo: "Welcome, legendary bard", dificultad: "2", notas: 159, estado: 0 },
   { id: "01", titulo: "Transcient princess", dificultad: "1", notas: 150, estado: 0 },
   { id: "02", titulo: "Hall of the raving dragon", dificultad: "4", notas: 600, estado: 0 },
   { id: "03", titulo: "King of the disco", dificultad: "3", notas: 400, estado: 0 },
@@ -13,9 +17,22 @@ const listaCanciones = [
   { id: "0A", titulo: "Lost city of the resonant creations", dificultad: "2", notas: 355, estado: 0 },
   { id: "0B", titulo: "Valley of the dreaded", dificultad: "5", notas: 852 , estado: 0 },
   { id: "0C", titulo: "Nyarlathotep", dificultad: "6", notas: 897 , estado: 0 },
+  { id: "0D", titulo: "Woods of the endless party", dificultad: "3", estado: 0 },
+  { id: "0E", titulo: "Legends of the sacred dance", dificultad: "4", estado: 0 },
+  { id: "0F", titulo: "The old rites of Gradgordur", dificultad: "5", estado: 0 },
 ];
 
-const listaPuntuaciones = []
+const listaPuntuaciones = [];
+const JSONPuntuaciones = JSON.parse(sessionStorage.getItem("listadoPuntuaciones"))
+const JSONEstados = JSON.parse(sessionStorage.getItem("mejoresEstados"));
+try {
+  JSONPuntuaciones.forEach(elem => listaPuntuaciones.push(elem));
+  listaCanciones.forEach(elem => elem.estado = JSONEstados.find(({ id }) => id === elem.id).estado);
+} catch (error) {
+  console.log("No hay datos guardados");
+}
+
+console.log(JSONPuntuaciones);
 
 const tablaCanciones = document.getElementsByTagName("table")[0];
 const selectCanciones = document.getElementById("canciones");
@@ -23,6 +40,9 @@ const listado = document.getElementById("listado");
 const formulario = document.getElementById("formulario");
 // listado.style.display = "block";
 // formulario.style.display = "none";
+
+// FALTA EVENTO DE CAMBIO DE VISTA
+// Tambien falta una vista con las 10 canciones con las puntuaciones más altas.
 
 const valoresPuntuaciones = [
   { id: "01", perfect: 150, good: 0, fail: 0 },
@@ -51,16 +71,15 @@ const valoresPuntuaciones = [
   { id: "0C", perfect: 680, good: 107, fail: 110 },
 ];
 // Descomentar para añadir datos de forma automatica.
-for (let i = valoresPuntuaciones.length - 1; i >= 0; i--) {
-  if (i > 0) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [valoresPuntuaciones[i], valoresPuntuaciones[j]] = [valoresPuntuaciones[j], valoresPuntuaciones[i]];
-  }
-  const valores = valoresPuntuaciones.pop();
-  const cancion = listaCanciones.find(({ id }) => id === valores.id);
-  añadePuntuaciones(listaPuntuaciones, listaCanciones, valores.id, puntuación(valores.perfect, valores.good, cancion.notas), estado(valores.good, valores.fail));
-}
-console.log(listaPuntuaciones);
+// for (let i = valoresPuntuaciones.length - 1; i >= 0; i--) {
+//   if (i > 0) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [valoresPuntuaciones[i], valoresPuntuaciones[j]] = [valoresPuntuaciones[j], valoresPuntuaciones[i]];
+//   }
+//   const valores = valoresPuntuaciones.pop();
+//   const cancion = listaCanciones.find(({ id }) => id === valores.id);
+//   añadePuntuaciones(listaPuntuaciones, listaCanciones, valores.id, puntuación(valores.perfect, valores.good, cancion.notas), estado(valores.good, valores.fail));
+// }
 // Fin sección añadir datos de forma automatica.
 
 listaCanciones.forEach(cancion => {
@@ -74,78 +93,27 @@ listaCanciones.forEach(cancion => {
   selectCanciones.appendChild(option);
 });
 
+console.log(listaCanciones);
+console.log(listaPuntuaciones);
+
+// FALTA VALIDAR LOS DATOS
+// En este caso, asegurarse de que hay una canción seleccionada, y de que se ha introducido el numero correcto de notas.
+
 function añadir() {
   const cancion = listaCanciones.find(({ id }) => id === document.getElementById("canciones").value);
-  const bien = document.getElementById("bien");
-  const puntuaciónActual = puntuación(document.getElementById("perfecto"), bien, cancion.notas)
-  const estadoActual = estado(bien, document.getElementById("fallo"))
-  añadePuntuaciones(listaPuntuaciones, listaCanciones, cancion.id, puntuaciónActual, estadoActual);
-  const fila = document.getElementById(cancion.id);
-  const mejorPuntuación = listaPuntuaciones.filter(p => cancion.id.includes( p.id )).map( p => p.valor ).sort((a,b) => b - a)[0];
-  if (puntuaciónActual > mejorPuntuación.valor) {
-    fila.children[2].textContent = mejorPuntuación.toFixed(6).toString();
-    fila.children[3].textContent = grado(mejorPuntuación);
-    fila.children[3].classList.remove("EX","A","B","C","D","E");
-    fila.children[3].classList.add(grado(mejorPuntuación));
+  const perfecto = Number(document.getElementById("perfecto").value);
+  const bien = Number(document.getElementById("bien").value);
+  const fallos = Number(document.getElementById("fallo").value);
+  const puntuaciónActual = puntuación(perfecto, bien, cancion.notas);
+  const estadoPuntuacion = estado(bien, fallos);
+  añadePuntuaciones(listaPuntuaciones, listaCanciones, cancion.id, puntuaciónActual, estadoPuntuacion);
+  sessionStorage.setItem("listadoPuntuaciones",JSON.stringify(listaPuntuaciones));
+  const mejoresEstados = [];
+  for (const item of listaCanciones) {
+    mejoresEstados.push({ id: item.id, estado: item.estado });
   }
-  if (estadoActual > mejorPuntuación.estado) {
-    fila.children[4].classList.remove("CP","CC","CS","NP");
-    switch (cancion.estado) {
-      case 1:
-        fila.children[4].textContent = "Superado";
-        fila.children[4].classList.add("CS");
-        break;
-      case 2:
-        fila.children[4].textContent = "Combo Completo";
-        fila.children[4].classList.add("CC");
-        break;
-      case 3:
-        fila.children[4].textContent = "Combo Perfecto";
-        fila.children[4].classList.add("CP");
-        break;
-    }
-  }
-  console.log(listaPuntuaciones);
+  console.log(mejoresEstados);
+  sessionStorage.setItem("mejoresEstados",JSON.stringify(mejoresEstados));
 }
 
 formulario.addEventListener("submit", añadir);
-
-// Descomentar para añadir datos uno a uno. Redundante si se añaden datos de forma automatica.
-// const botonAñadir = document.getElementById("añade");
-// botonAñadir.addEventListener("click", aListaPuntuaciones);
-
-// function aListaPuntuaciones() {
-//   for (let i = valoresPuntuaciones.length - 1; i > 0; i--) {
-//     const j = Math.floor(Math.random() * (i + 1));
-//     [valoresPuntuaciones[i], valoresPuntuaciones[j]] = [valoresPuntuaciones[j], valoresPuntuaciones[i]];
-//   }
-//   const valores = valoresPuntuaciones.pop();
-//   const cancion = listaCanciones.find(({ id }) => id === valores.id);
-//   añadePuntuaciones(listaPuntuaciones, listaCanciones, valores.id, puntuación(valores.perfect, valores.good, cancion.notas), estado(valores.good, valores.fail));
-//   const fila = document.getElementById(valores.id)
-//   const mejorPuntuación = listaPuntuaciones.filter(p => valores.id.includes( p.id )).map( p => p.valor ).sort((a,b) => b - a)[0];
-//   fila.children[2].textContent = mejorPuntuación.toFixed(6).toString();
-//   fila.children[3].textContent = grado(mejorPuntuación);
-//   fila.children[3].classList.remove("EX","A","B","C","D","E");
-//   fila.children[3].classList.add(grado(mejorPuntuación));
-//   fila.children[4].classList.remove("CP","CC","CS","NP");
-//   switch (cancion.estado) {
-//     case 1:
-//       fila.children[4].textContent = "Superado";
-//       fila.children[4].classList.add("CS");
-//       break;
-//     case 2:
-//       fila.children[4].textContent = "Combo Completo";
-//       fila.children[4].classList.add("CC");
-//       break;
-//     case 3:
-//       fila.children[4].textContent = "Combo Perfecto";
-//       fila.children[4].classList.add("CP");
-//       break;
-//   }
-//   if (valoresPuntuaciones.length === 0) {
-//     botonAñadir.removeEventListener("click", aListaPuntuaciones);
-//     setTimeout(() => botonAñadir.setAttribute("href", "./form.html"), 500);
-//   }
-// }
-// Fin sección añadir datos uno a uno.

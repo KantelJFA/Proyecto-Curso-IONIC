@@ -114,40 +114,6 @@ export function añadirFilaTabla(id, titulo, dificultad, puntuación, estado) {
 }
 
 /**
- * 
- * @param { string } id id de la canción.
- * @param { number } puntuación Puntuación maxima obtenida.
- * @param { number } estado Mejor estado de compleción obtenido.
- */
-export function editarFilaTabla(id, puntuación, estado) {
-  const fila = document.getElementById(id);
-  const mejorPuntuación = listaPuntuaciones.filter(p => cancion.id.includes( p.id )).map( p => p.valor ).sort((a,b) => b - a)[0];
-  if (puntuación > mejorPuntuación.valor) {
-    fila.children[2].textContent = mejorPuntuación.toFixed(6).toString();
-    fila.children[3].textContent = grado(mejorPuntuación);
-    fila.children[3].classList.remove("EX","A","B","C","D","E");
-    fila.children[3].classList.add(grado(mejorPuntuación));
-  }
-  if (estado > mejorPuntuación.estado) {
-    fila.children[4].classList.remove("CP","CC","CS","NP");
-    switch (cancion.estado) {
-      case 1:
-        fila.children[4].textContent = "Superado";
-        fila.children[4].classList.add("CS");
-        break;
-      case 2:
-        fila.children[4].textContent = "Combo Completo";
-        fila.children[4].classList.add("CC");
-        break;
-      case 3:
-        fila.children[4].textContent = "Combo Perfecto";
-        fila.children[4].classList.add("CP");
-        break;
-    }
-  }
-}
-
-/**
  * Añade una puntuación a la tabla de puntuaciones, y comprueba si es necesario modificar el estado de compleción de la canción.
  * 
  * @param { {id: string, valor: number, momentoIntroducción: number}[] } puntuaciones lista de puntuaciones.
@@ -157,7 +123,7 @@ export function editarFilaTabla(id, puntuación, estado) {
  * @param { number } estado 
  */
 export function añadePuntuaciones(puntuaciones, canciones, idCancion, puntuación, estado) {
-  puntuaciones.push({ id: idCancion, valor: puntuación, momentoIntroducción: Date.now() });
+  puntuaciones.push({ id: idCancion, valor: puntuación, momento: Date.now() });
   const cancion = canciones.find(({ id }) => id === idCancion);
   if (estado > cancion.estado) cancion.estado = estado;
 };
