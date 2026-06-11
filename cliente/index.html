@@ -25,15 +25,15 @@
       </section>
       <section id="formulario">
         <form method="post">
-          <select id="canciones">
+          <select id="canciones" required>
             <option selected hidden>Seleccione una canción</option>
           </select><br>
           <label for="perfecto">Perfectos:</label>
-          <input name="perfecto" type="number" id="perfecto"><br>
+          <input name="perfecto" type="number" id="perfecto" min="0"><br>
           <label for="bien">Bien:</label>
-          <input name="bien" type="number" id="bien"><br>
+          <input name="bien" type="number" id="bien" min="0"><br>
           <label for="fallo">Fallos:</label>
-          <input name="fallo" type="number" id="fallo"><br>
+          <input name="fallo" type="number" id="fallo" min="0"><br>
           <input type="submit" value="Añadir puntuación">
         </form>
         <button id="muestra">Ver lista</button>
