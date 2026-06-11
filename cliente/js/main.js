@@ -1,7 +1,7 @@
 import { cantidadesValidas, puntuación, estado, añadirFilaTabla, añadePuntuaciones, grado } from "./funciones.js";
 
 // FALTA AÑADIR MÁS CANCIONES
-// Al menos un 2, un 5, y unos cuantos 3 y 4
+// Al menos unos cuantos 3 y 4
 
 const listaCanciones = [
   { id: "00", titulo: "Welcome, legendary bard", dificultad: "2", notas: 159, estado: 0 },
@@ -36,15 +36,15 @@ console.log(JSONPuntuaciones);
 
 const tablaCanciones = document.getElementsByTagName("table")[0];
 const selectCanciones = document.getElementById("canciones");
+const headerElement = document.getElementsByTagName("h1")[0];
 const listado = document.getElementById("listado");
 const formulario = document.getElementById("formulario");
-// listado.style.display = "block";
-// formulario.style.display = "none";
+const botonFormulario = document.getElementById("añade");
+const botonLista = document.getElementById("muestra");
 
-// FALTA EVENTO DE CAMBIO DE VISTA
-// Tambien falta una vista con las 10 canciones con las puntuaciones más altas.
+// Posible ampliación, vista con las 10 canciones con las puntuaciones más altas.
 
-// Descomentar para añadir datos de forma automatica.
+// // Descomentar para añadir datos de forma automatica.
 // const valoresPuntuaciones = [
 //   { id: "01", perfect: 150, good: 0, fail: 0 },
 //   { id: "01", perfect: 125, good: 25, fail: 0 },
@@ -80,7 +80,7 @@ const formulario = document.getElementById("formulario");
 //   const cancion = listaCanciones.find(({ id }) => id === valores.id);
 //   añadePuntuaciones(listaPuntuaciones, listaCanciones, valores.id, puntuación(valores.perfect, valores.good, cancion.notas), estado(valores.good, valores.fail));
 // }
-// Fin sección añadir datos de forma automatica.
+// // Fin sección añadir datos de forma automatica.
 
 listaCanciones.forEach(cancion => {
   const option = document.createElement("option");
@@ -93,11 +93,10 @@ listaCanciones.forEach(cancion => {
   selectCanciones.appendChild(option);
 });
 
+mostrarListado();
+
 console.log(listaCanciones);
 console.log(listaPuntuaciones);
-
-// FALTA VALIDAR LOS DATOS
-// En este caso, asegurarse de que hay una canción seleccionada, y de que se ha introducido el numero correcto de notas.
 
 function validar() {
   const cancion = listaCanciones.find(({ id }) => id === document.getElementById("canciones").value);
@@ -123,3 +122,18 @@ function añadir(cancion, perfecto, bien, fallos) {
 }
 
 formulario.addEventListener("submit", validar);
+
+function mostrarListado() {
+  headerElement.textContent = "Listado de canciones";
+  listado.style.display = "block";
+  formulario.style.display = "none";
+}
+
+function mostrarFormulario() {
+  headerElement.textContent = "Añadir puntuación";
+  listado.style.display = "none";
+  formulario.style.display = "block";
+}
+
+botonFormulario.addEventListener("click", mostrarFormulario);
+botonLista.addEventListener("click", mostrarListado);
